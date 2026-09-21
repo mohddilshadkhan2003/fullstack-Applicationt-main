@@ -1,47 +1,190 @@
-# Full Stack Development Task
+# Full Stack Portfolio Website
 
-The Project is regarding full stack web application in which we have create a complete backend,
-frontend and database.
+A modern portfolio and agency website with a public landing page and an authenticated admin dashboard. Visitors can submit contact requests and subscribe to a newsletter, while admins can manage projects, clients, contact submissions, and subscribers.
 
-The Database used is MongoATLAS.
+## Overview
 
-# WORKING
-The web Application consist of majorly 2 pages
-Landing Page
-Admin Page
-In landing page a user can fill contact form
-and all the details of contact from goes through backend to Admin Page.
+This application is split into two main parts:
 
-Then it also have about us and Why choose us section from the reference image.
+- Backend: Java 17 + Spring Boot + MongoDB
+- Frontend: HTML + CSS + JavaScript
 
-In last section it have a email input field where if user enter his/her email,
-the email goes through backend to admin Page.
+The landing page showcases projects and clients, while the admin dashboard lets authorized users add and review content.
 
-# Tech
-Java
-Spring Boot
-Mongo DB
-HTML
-CSS
-JS
+## Features
 
-The landing page displays all the clients,projects.
+- Public landing page
+- Contact form for enquiries
+- Newsletter subscription
+- Project display carousel/cards
+- Client highlight section
+- Admin panel for content management
+- MongoDB persistence
+- Input validation and safe frontend rendering
 
-# How it Runs Locally
+## Tech stack
 
-First through the terminal of IDE (IntelliJ IDEA) in itst erminal we traverse to
-location till backend part and run command (mvn spring-boot:run)
+- Java 17
+- Spring Boot 4.0.1
+- Spring Data MongoDB
+- MongoDB Atlas / local MongoDB
+- HTML5
+- CSS3
+- Vanilla JavaScript
 
-OR
+## Project structure
 
-we can also run the main file of the Application that is (BackendApplication.java).
+```text
+fullstack-Assignment-main/
+├── backend/
+│   ├── src/main/java/com/assignment/backend/
+│   │   ├── config/
+│   │   ├── controller/
+│   │   ├── exception/
+│   │   ├── model/
+│   │   ├── repository/
+│   │   └── BackendApplication.java
+│   ├── src/main/resources/
+│   │   └── application.properties
+│   ├── pom.xml
+│   ├── mvnw
+│   └── mvnw.cmd
+├── frontend/
+│   ├── admin.html
+│   ├── index.html
+│   ├── css/
+│   └── js/
+├── README.md
+└── backend.zip
+```
 
-Then We run Frontend Part 
-that is Index.html and Admin.html in Chrome or any other Browser.
+## Local development setup
 
-The Mongo DB is available on MongoATLAS where data is saved in it through
-Forms (Add Project,Add Client) etc.
+### Prerequisites
 
-# User Interface
-The UI is kept Simple and manageable in which normal html and css is used.
+- JDK 17+
+- Maven or Maven Wrapper
+- MongoDB running locally or MongoDB Atlas connection string
+- A browser for the frontend
 
+### Backend setup
+
+1. Open a terminal in the `backend` folder.
+2. Set the MongoDB connection string:
+
+```bash
+export SPRING_DATA_MONGODB_URI="mongodb://localhost:27017/backend"
+```
+
+On Windows PowerShell:
+
+```powershell
+$env:SPRING_DATA_MONGODB_URI = "mongodb://localhost:27017/backend"
+```
+
+3. Start the app:
+
+```bash
+./mvnw spring-boot:run
+```
+
+4. The API should run at:
+
+```text
+http://localhost:8080
+```
+
+### Frontend setup
+
+Serve the `frontend` directory using a static HTTP server or open the files directly in a modern browser.
+
+Example using Python:
+
+```bash
+cd frontend
+python -m http.server 5500
+```
+
+Then open:
+
+- `http://localhost:5500/index.html`
+- `http://localhost:5500/admin.html`
+
+## API endpoints
+
+### Public endpoints
+
+- `GET /projects`
+- `POST /projects`
+- `GET /clients`
+- `POST /clients`
+- `POST /contact`
+- `GET /contact`
+- `POST /subscribe`
+- `GET /subscribe`
+
+### Notes
+
+- Contact submissions and newsletter signups are public entry points.
+- Administrative content management should be protected behind authenticated access in production.
+- The default configuration is intended for local development and should be hardened before deployment.
+
+## Environment variables
+
+```bash
+SPRING_DATA_MONGODB_URI
+APP_CORS_ALLOWED_ORIGINS
+PORT
+```
+
+Example:
+
+```bash
+export PORT=8080
+export SPRING_DATA_MONGODB_URI="mongodb+srv://username:password@cluster.mongodb.net/backend"
+export APP_CORS_ALLOWED_ORIGINS="http://localhost:5500,http://127.0.0.1:5500"
+```
+
+## Security notes
+
+- Never commit real MongoDB credentials.
+- Keep secrets in environment variables or a secret manager.
+- Restrict admin APIs in production.
+- Validate all incoming data.
+- Avoid using `innerHTML` when rendering user-provided content.
+
+## Troubleshooting
+
+### MongoDB connection errors
+
+- Check if MongoDB is running.
+- Confirm the URI is valid.
+- Ensure the database user has the correct permissions.
+
+### Port already in use
+
+- Change the server port in `application.properties` or set `PORT`.
+
+### Frontend API errors
+
+- Confirm the Spring Boot backend is running.
+- Verify the frontend is using the correct API base URL.
+- Check browser console logs for network errors.
+
+## Production guidance
+
+For production deployments:
+
+- configure a secure MongoDB connection string
+- add authentication for the admin dashboard
+- restrict CORS to trusted domains only
+- use HTTPS
+- add monitoring, logging, and automated tests
+
+## License
+
+This project is provided as a study/demo project and is intended for educational use.
+
+## Contributing
+
+This project is a learning project and is currently maintained as a demo application. Contributions are welcome when they improve security, maintainability, and quality.
