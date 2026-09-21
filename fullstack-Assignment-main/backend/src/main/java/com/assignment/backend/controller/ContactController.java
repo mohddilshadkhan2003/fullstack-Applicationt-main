@@ -2,21 +2,22 @@ package com.assignment.backend.controller;
 
 import com.assignment.backend.model.Contact;
 import com.assignment.backend.repository.ContactRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/contact")
 public class ContactController {
+    private final ContactRepository contactRepository;
 
-    @Autowired
-    private ContactRepository contactRepository;
+    public ContactController(ContactRepository contactRepository) {
+        this.contactRepository = contactRepository;
+    }
 
     @PostMapping
-    public Contact submitContact(@RequestBody Contact contact) {
+    public Contact submitContact(@Valid @RequestBody Contact contact) {
         return contactRepository.save(contact);
     }
 

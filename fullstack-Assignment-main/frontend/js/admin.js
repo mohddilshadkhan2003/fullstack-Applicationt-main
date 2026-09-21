@@ -1,86 +1,44 @@
-// Add Project
-document.getElementById("projectForm").addEventListener("submit", e => {
-  e.preventDefault();
+async function loadAdminData() {
+  try {
+    const [contacts, subscribers] = await Promise.all([request(API.CONTACT), request(API.SUBSCRIBE)]);
+    const contactsContainer = document.getElementById("contacts");
+    const subscribersContainer = document.getElementById("subscribers");
+    contactsContainer.replaceChildren();
+    subscribersContainer.replaceChildren();
 
-  fetch(API.PROJECTS, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: pname.value,
-      imageUrl: pimage.value,
-      description: pdesc.value
-    })
-  }).then(() => alert("Project added"));
+    contacts.forEach((contact) => {
+      const item = document.createElement("p");
+      item.textContent = `${contact.fullName} — ${contact.email} — ${contact.mobile} — ${contact.city}`;
+      contactsContainer.appendChild(item);
+    });
+    subscribers.forEach((subscriber) => {
+      const item = document.createElement("p");
+      item.textContent = subscriber.email;
+      subscribersContainer.appendChild(item);
+    });
+  } catch (error) { console.error("Admin data error:", error); }
+}
+
+async function submitAdminForm(form, endpoint, payload, successMessage) {
+  try {
+    await request(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    alert(successMessage);
+    form.reset();
+  } catch (error) { console.error(error); alert("Unable to save this item. Please try again."); }
+}
+
+document.getElementById("projectForm")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = Object.fromEntries(new FormData(form));
+  submitAdminForm(form, API.PROJECTS, data, "Project added.");
 });
 
-// Add Client
-document.getElementById("clientForm").addEventListener("submit", e => {
-  e.preventDefault();
-
-  fetch(API.CLIENTS, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: cname.value,
-      imageUrl: cimage.value,
-      designation: cdesig.value,
-      description: cdesc.value
-    })
-  }).then(() => alert("Client added"));
+document.getElementById("clientForm")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const data = Object.fromEntries(new FormData(form));
+  submitAdminForm(form, API.CLIENTS, data, "Client added.");
 });
 
-// Load Contacts
-fetch(API.CONTACT)
-  .then(res => res.json())
-  .then(data => {
-    const div = document.getElementById("contacts");
-    data.forEach(c => {
-      div.innerHTML += `<p>${c.fullName} - ${c.email}</p>`;
-    });
-  });
-
-// Load Subscribers
-fetch(API.SUBSCRIBE)
-  .then(res => res.json())
-  .then(data => {
-    const div = document.getElementById("subscribers");
-    data.forEach(s => {
-      div.innerHTML += `<p>${s.email}</p>`;
-    });
-  });
-
-
-fetch(API.CONTACT)
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("contactsObserved");
-    container.innerHTML = "";
-
-    data.forEach(contact => {
-      const div = document.createElement("div");
-      div.innerHTML = `
-        <p>
-          <strong>${contact.fullName}</strong><br/>
-          Email: ${contact.email}<br/>
-          Mobile: ${contact.mobile}<br/>
-          City: ${contact.city}
-        </p>
-        <hr/>
-      `;
-      container.appendChild(div);
-    });
-  });
-
-
-fetch(API.SUBSCRIBE)
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("subscribersObserved");
-    container.innerHTML = "";
-
-    data.forEach(sub => {
-      const p = document.createElement("p");
-      p.textContent = sub.email;
-      container.appendChild(p);
-    });
-  });
+loadAdminData();
