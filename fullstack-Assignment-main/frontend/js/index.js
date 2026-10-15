@@ -1,88 +1,67 @@
-//Project LOad
-fetch(API.PROJECTS)
-  .then(res => res.json())
-  .then(data => {
-    const projectsDiv = document.getElementById("projects");
-    projectsDiv.innerHTML = "";
+const createText = (tag, text, className) => {
+  const element = document.createElement(tag);
+  element.textContent = text || "";
+  if (className) element.className = className;
+  return element;
+};
 
-    data.forEach(project => {
-      const card = document.createElement("div");
+async function renderProjects() {
+  const container = document.getElementById("projects");
+  try {
+    const projects = await request(API.PROJECTS);
+    container.replaceChildren();
+    projects.forEach((project) => {
+      const card = document.createElement("article");
       card.className = "card";
-
-      card.innerHTML = `
-        <img src="${project.imageUrl || 'https://via.placeholder.com/300'}">
-        <h3>${project.name}</h3>
-        <p>${project.description}</p>
-        <button class="btn">Read More</button>
-      `;
-
-      projectsDiv.appendChild(card);
+      const image = document.createElement("img");
+      image.src = project.imageUrl || "https://via.placeholder.com/300";
+      image.alt = project.name || "Project image";
+      image.loading = "lazy";
+      card.append(image, createText("h3", project.name || "Untitled project"), createText("p", project.description || ""));
+      container.appendChild(card);
     });
-  });
+  } catch (error) { console.error("Projects error:", error); }
+}
 
-// ================= LOAD CLIENTS =================
-fetch(API.CLIENTS)
-  .then(res => res.json())
-  .then(data => {
-    const clientsDiv = document.getElementById("clients");
-    clientsDiv.innerHTML = "";
-
-    data.forEach(client => {
-      const card = document.createElement("div");
+async function renderClients() {
+  const container = document.getElementById("clients");
+  try {
+    const clients = await request(API.CLIENTS);
+    container.replaceChildren();
+    clients.forEach((client) => {
+      const card = document.createElement("article");
       card.className = "card";
-
-      card.innerHTML = `
-        <img src="${client.imageUrl || 'https://via.placeholder.com/150'}">
-        <h3>${client.name}</h3>
-        <p><strong>${client.designation}</strong></p>
-        <p>${client.description}</p>
-      `;
-
-      clientsDiv.appendChild(card);
+      const image = document.createElement("img");
+      image.src = client.imageUrl || "https://via.placeholder.com/150";
+      image.alt = client.name || "Client image";
+      image.loading = "lazy";
+      card.append(image, createText("h3", client.name || "Client"), createText("strong", client.designation || ""), createText("p", client.description || ""));
+      container.appendChild(card);
     });
-  });
+  } catch (error) { console.error("Clients error:", error); }
+}
 
-// ================= CONTACT FORM =================
-document.getElementById("contactForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const fullName = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const mobile = document.getElementById("mobile").value;
-  const city = document.getElementById("city").value;
-
-  fetch(API.CONTACT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      fullName: fullName,
-      email: email,
-      mobile: mobile,
-      city: city
-    })
-  })
-  .then(() => {
-    alert("Contact submitted successfully");
-    document.getElementById("contactForm").reset();
-  })
-  .catch(err => console.error("Contact error", err));
+document.getElementById("contactForm")?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const payload = Object.fromEntries(new FormData(form));
+  try {
+    await request(API.CONTACT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    alert("Contact submitted successfully.");
+    form.reset();
+  } catch (error) { console.error(error); alert("Unable to submit the contact form. Please try again."); }
 });
 
-// ================= NEWSLETTER =================
-document.getElementById("subscribeForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  fetch(API.SUBSCRIBE, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: subEmail.value
-    })
-  })
-  .then(() => {
-    alert("Subscribed successfully");
-    this.reset();
-  });
+document.getElementById("subscribeForm")?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const email = new FormData(form).get("email");
+  try {
+    await request(API.SUBSCRIBE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
+    alert("Subscribed successfully.");
+    form.reset();
+  } catch (error) { console.error(error); alert("Unable to subscribe. Please try again."); }
 });
+
+renderProjects();
+renderClients();

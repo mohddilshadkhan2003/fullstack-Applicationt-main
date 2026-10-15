@@ -1,58 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Landing Page</title>
-    <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Consultation, design and marketing solutions for ambitious businesses." />
+  <title>Consultation, Design &amp; Marketing</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <main>
+    <header class="hero">
+      <p class="eyebrow">Strategy that moves business forward</p>
+      <h1>Consultation, Design &amp; Marketing</h1>
+      <p>Thoughtful digital experiences and practical growth strategies for modern brands.</p>
+    </header>
 
+    <section aria-labelledby="contact-title">
+      <h2 id="contact-title">Start a conversation</h2>
+      <form id="contactForm">
+        <label>Full name <input name="fullName" type="text" id="name" maxlength="100" required /></label>
+        <label>Email <input name="email" type="email" id="email" required /></label>
+        <label>Mobile number <input name="mobile" type="tel" id="mobile" maxlength="20" required /></label>
+        <label>Area or city <input name="city" type="text" id="city" maxlength="100" required /></label>
+        <button type="submit" class="btn">Send enquiry</button>
+      </form>
+    </section>
 
-<h1>Consultation, Design & Marketing</h1>
-<!--Contact-->
-<form id="contactForm">
-    <input type="text" id="name" placeholder="Full Name" required />
-    <input type="email" id="email" placeholder="Email Email Address" required />
-    <input type="text" id="mobile" placeholder="Mobile Number" required />
-    <input type="text" id="city" placeholder="Area, City" required />
-    <button type="submit" class="btn">Submit</button>
-</form>
+    <section class="static-section" aria-labelledby="why-title">
+      <h2 id="why-title">Why choose us?</h2>
+      <div class="feature-grid"><p><strong>Potential ROI</strong><br />We focus on measurable business value.</p><p><strong>Design</strong><br />Clear, user-focused and responsive experiences.</p><p><strong>Marketing</strong><br />Strategies designed to help your business grow.</p></div>
+    </section>
 
-<!--Choose Us-->
-<h1>Why Choose Us?</h1>
-<div class="static-section">
-    <p><strong>Potential ROI:</strong> We focus on delivering maximum business value.</p>
-    <p><strong>Design:</strong> Clean, user-focused, and responsive designs.</p>
-    <p><strong>Marketing:</strong> Strategies that help your business grow.</p>
-</div>
-
-<!--About Us-->
-<h1>About Us</h1>
-<div class="static-section">
-    <p>
-        We are a team of professionals providing consultation, design, and marketing
-        solutions to help businesses scale efficiently and effectively.
-    </p>
-</div>
-
-<!--All Project-->
-<h1>Our Projects</h1>
-<div id="projects" class="card-container"></div>
-
-<!--Clients-->
-<h1>Happy Clients</h1>
-<div id="clients" class="card-container"></div>
-
-<!--Subscribe-->
-<h1>Subscribe to Newsletter</h1>
-
-<form id="subscribeForm">
-    <input type="email" id="subEmail" placeholder="Enter your email" required />
-    <button type="submit" class="btn">Subscribe</button>
-</form>
-
-<script src="js/api.js"></script>
-<script src="js/index.js"></script>
-
+    <section class="static-section" aria-labelledby="about-title"><h2 id="about-title">About us</h2><p>We are a team of professionals providing consultation, design and marketing solutions to help businesses scale efficiently.</p></section>
+    <section aria-labelledby="projects-title"><h2 id="projects-title">Our projects</h2><div id="projects" class="card-container" aria-live="polite"></div></section>
+    <section aria-labelledby="clients-title"><h2 id="clients-title">Happy clients</h2><div id="clients" class="card-container" aria-live="polite"></div></section>
+    <section aria-labelledby="subscribe-title"><h2 id="subscribe-title">Subscribe to our newsletter</h2><form id="subscribeForm"><label>Email address <input name="email" type="email" id="subEmail" required /></label><button type="submit" class="btn">Subscribe</button></form></section>
+  </main>
+  <script src="js/api.js"></script><script src="js/index.js"></script>
 </body>
 </html>

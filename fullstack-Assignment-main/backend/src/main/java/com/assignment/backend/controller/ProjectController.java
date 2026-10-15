@@ -2,21 +2,22 @@ package com.assignment.backend.controller;
 
 import com.assignment.backend.model.Project;
 import com.assignment.backend.repository.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/projects")
 public class ProjectController {
+    private final ProjectRepository projectRepository;
 
-    @Autowired
-    private ProjectRepository projectRepository;
+    public ProjectController(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
 
     @PostMapping
-    public Project addProject(@RequestBody Project project) {
+    public Project addProject(@Valid @RequestBody Project project) {
         return projectRepository.save(project);
     }
 

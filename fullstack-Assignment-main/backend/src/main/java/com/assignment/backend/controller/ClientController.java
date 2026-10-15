@@ -2,21 +2,22 @@ package com.assignment.backend.controller;
 
 import com.assignment.backend.model.Client;
 import com.assignment.backend.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/clients")
 public class ClientController {
+    private final ClientRepository clientRepository;
 
-    @Autowired
-    private ClientRepository clientRepository;
+    public ClientController(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     @PostMapping
-    public Client addClient(@RequestBody Client client) {
+    public Client addClient(@Valid @RequestBody Client client) {
         return clientRepository.save(client);
     }
 

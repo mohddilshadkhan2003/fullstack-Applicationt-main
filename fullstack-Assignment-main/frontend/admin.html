@@ -1,38 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" /><title>Admin dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
-<h1 style="margin-bottom:40px;">Admin Panel</h1>
-
-<h2>Add Project</h2>
-<form id="projectForm">
-    <input type="text" placeholder="Project Name" id="pname" required />
-    <input type="text" placeholder="Image URL" id="pimage" />
-    <textarea placeholder="Description" id="pdesc"></textarea>
-    <button type="submit">Add Project</button>
-</form>
-
-<h2>Add Client</h2>
-<form id="clientForm">
-    <input type="text" placeholder="Client Name" id="cname" required />
-    <input type="text" placeholder="Image URL" id="cimage" />
-    <input type="text" placeholder="Designation" id="cdesig" />
-    <textarea placeholder="Description" id="cdesc"></textarea>
-    <button type="submit">Add Client</button>
-</form>
-
-<h2>Contact Submissions</h2>
-<div id="contacts"></div>
-
-<h2>Newsletter Subscribers</h2>
-<div id="subscribers"></div>
-
-<script src="js/api.js"></script>
-<script src="js/admin.js"></script>
+  <main><header class="hero"><p class="eyebrow">Workspace</p><h1>Admin dashboard</h1><p>Manage the content shown on your public website.</p></header>
+    <section><h2>Add project</h2><form id="projectForm"><label>Project name <input name="name" id="pname" maxlength="100" required /></label><label>Image URL <input name="imageUrl" id="pimage" type="url" maxlength="2048" /></label><label>Description <textarea name="description" id="pdesc" maxlength="2000"></textarea></label><button type="submit">Add project</button></form></section>
+    <section><h2>Add client</h2><form id="clientForm"><label>Client name <input name="name" id="cname" maxlength="100" required /></label><label>Image URL <input name="imageUrl" id="cimage" type="url" maxlength="2048" /></label><label>Designation <input name="designation" id="cdesig" maxlength="100" /></label><label>Description <textarea name="description" id="cdesc" maxlength="2000"></textarea></label><button type="submit">Add client</button></form></section>
+    <section><h2>Contact submissions</h2><div id="contacts" class="data-list" aria-live="polite"></div></section>
+    <section><h2>Newsletter subscribers</h2><div id="subscribers" class="data-list" aria-live="polite"></div></section>
+  </main>
+  <script src="js/api.js"></script><script src="js/admin.js"></script>
 </body>
 </html>

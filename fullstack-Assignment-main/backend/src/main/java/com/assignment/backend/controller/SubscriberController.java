@@ -2,22 +2,25 @@ package com.assignment.backend.controller;
 
 import com.assignment.backend.model.Subscriber;
 import com.assignment.backend.repository.SubscriberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/subscribe")
 public class SubscriberController {
+    private final SubscriberRepository subscriberRepository;
 
-    @Autowired
-    private SubscriberRepository subscriberRepository;
+    public SubscriberController(SubscriberRepository subscriberRepository) {
+        this.subscriberRepository = subscriberRepository;
+    }
 
     @PostMapping
-    public Subscriber subscribe(@RequestBody Subscriber subscriber) {
-        return subscriberRepository.save(subscriber);
+    public Subscriber subscribe(@Valid @RequestBody Subscriber subscriber) {
+        subscriber.setEmail(subscriber.getEmail().trim().toLowerCase());
+        return subscriberRepository.findByEmail(subscriber.getEmail())
+                .orElseGet(() -> subscriberRepository.save(subscriber));
     }
 
     @GetMapping
