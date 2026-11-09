@@ -1,509 +1,137 @@
-# Fullstack Portfolio and Agency Website
+# Fullstack Portfolio & Agency Website
 
-A modern full-stack portfolio and agency website built with Java, Spring Boot, MongoDB, and vanilla JavaScript.
+A lightweight portfolio and agency website with a Java 17 / Spring Boot REST API, MongoDB persistence, and a responsive HTML, CSS, and vanilla JavaScript frontend.
 
-This project showcases a public landing page, project/client highlights, contact form submissions, email subscriptions, and an admin dashboard for managing content.
+[![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.1-brightgreen?logo=springboot)](https://spring.io/projects/spring-boot)
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB-green?logo=mongodb)](https://www.mongodb.com/)
+[![Frontend-Vanilla JavaScript-yellow?logo=javascript)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-## Overview
+## What it does
 
-The application is designed as a small business portfolio website where visitors can:
-- view projects and client work
-- learn about the agency
-- submit contact requests
-- subscribe for updates
+- Presents projects and client highlights from the API
+- Accepts contact enquiries and newsletter subscriptions
+- Provides a dashboard for adding portfolio content and viewing submissions
+- Uses MongoDB through Spring Data MongoDB
 
-The admin panel lets administrators review incoming enquiries and manage project/client data.
+> **Security:** The admin page and its APIs are a demo, not an authenticated admin system. Do not expose them publicly with real or sensitive data without adding server-side authentication and authorization.
 
-## Architecture
+## Built with
 
-```mermaid
-flowchart LR
-    A[User Browser] --> B[Frontend: index.html / admin.html]
-    B --> C[JavaScript API Layer]
-    C --> D[Spring Boot REST API]
-    D --> E[MongoDB Database]
-    E --> F[Projects / Clients / Contact / Subscribers]
-    F --> G[Admin Dashboard]
-```
+| Area | Technologies |
+| --- | --- |
+| Backend | Java 17, Spring Boot 4.0.1, Spring Web MVC, Spring Data MongoDB |
+| Frontend | HTML5, CSS3, vanilla JavaScript |
+| Database | MongoDB (local or Atlas) |
+| Build | Maven Wrapper |
 
-## Workflow
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant F as Frontend
-    participant B as Backend API
-    participant M as MongoDB
-
-    U->>F: Open landing page
-    F->>B: GET /projects
-    F->>B: GET /clients
-    B->>M: Fetch data
-    M-->>B: Project/client records
-    B-->>F: JSON response
-    F-->>U: Render content
-
-    U->>F: Submit contact form
-    F->>B: POST /contact
-    B->>M: Save enquiry
-    M-->>B: Confirmation
-    B-->>F: Success response
-    F-->>U: Show confirmation
-```
-
-## Tech Stack
-
-- Java 17
-- Spring Boot
-- Spring Data MongoDB
-- MongoDB
-- HTML5
-- CSS3
-- JavaScript
-- Maven
-
-## Project Structure
+## Repository layout
 
 ```text
-fullstack-Assignment-main/
-├── backend/
-│   ├── src/main/java/com/assignment/backend/
-│   │   ├── config/
-│   │   ├── controller/
-│   │   ├── exception/
-│   │   ├── model/
-│   │   ├── repository/
-│   │   └── BackendApplication.java
-│   ├── src/main/resources/
-│   │   └── application.properties
-│   ├── pom.xml
-│   ├── mvnw
-│   ├── mvnw.cmd
-│   └── Dockerfile
-├── frontend/
-│   ├── index.html
-│   ├── admin.html
-│   ├── css/
-│   └── js/
-│       ├── api.js
-│       ├── index.js
-│       └── admin.js
+.
 ├── README.md
-└── backend.zip
+└── fullstack-Assignment-main/
+    ├── backend/   Spring Boot API and Maven Wrapper
+    └── frontend/  Landing page, admin page, styles, and JavaScript
 ```
 
-## Features
+## Run locally
 
-- Dynamic project showcase
-- Client highlight section
-- Contact form for enquiries
-- Email subscription form
-- Admin panel for viewing entries
-- MongoDB persistence
-- REST-based architecture
-- Browser-based frontend
+### Requirements
 
-## System Requirements
+- JDK 17 or newer
+- MongoDB running locally, or a MongoDB Atlas connection URI
+- A modern browser
 
-Before running the project, ensure your machine has:
+### 1. Configure the backend
 
-### Required software
-- JDK 17+
-- Maven 3.8+
-- MongoDB running locally or a valid MongoDB Atlas connection string
-- Modern browser such as Chrome, Edge, or Firefox
+From the repository root, enter the application directory:
 
-### Optional tools
-- IntelliJ IDEA or VS Code
-- Git
-- Docker (for containerized deployment)
-
-## Verify Java and Maven
-
-### Windows PowerShell
-```powershell
-java -version
-javac -version
-mvn -version
-```
-
-### macOS/Linux
 ```bash
-java -version
-javac -version
-mvn -version
+cd fullstack-Assignment-main
 ```
 
-If Java is not recognized, install JDK 17 and restart your terminal.
+Set the database URI and allowed frontend origins before starting the API.
 
-## Environment Variables
+**macOS / Linux**
 
-The backend reads configuration from environment variables.
+```bash
+export SPRING_DATA_MONGODB_URI="mongodb://localhost:27017/backend"
+export APP_CORS_ALLOWED_ORIGINS="http://localhost:5500,http://127.0.0.1:5500"
+```
 
-### Windows PowerShell
+**Windows PowerShell**
+
 ```powershell
-$env:PORT="8080"
 $env:SPRING_DATA_MONGODB_URI="mongodb://localhost:27017/backend"
 $env:APP_CORS_ALLOWED_ORIGINS="http://localhost:5500,http://127.0.0.1:5500"
 ```
 
-### macOS/Linux
-```bash
-export PORT=8080
-export SPRING_DATA_MONGODB_URI="mongodb://localhost:27017/backend"
-export APP_CORS_ALLOWED_ORIGINS="http://localhost:5500,http://127.0.0.1:5500"
-```
+Never commit database credentials. For Atlas, use your connection URI in the environment variable.
 
-## Run the Backend
+### 2. Start the API
 
-Go to the backend folder and start the Spring application:
+Run from `fullstack-Assignment-main/`:
 
-### Windows
-```powershell
-cd backend
-./mvnw.cmd spring-boot:run
-```
-
-### macOS/Linux
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-The application will start on:
-```text
-http://localhost:8080
-```
+On Windows, use `./mvnw.cmd spring-boot:run`. The API listens on `http://localhost:8080` by default; set `PORT` to change it.
 
-## Run the Frontend
+### 3. Serve the frontend
 
-You can either open the HTML files directly in the browser or serve the folder with a static server.
+In a second terminal, from `fullstack-Assignment-main/`:
 
-### Option 1: Open directly
-Open:
-- frontend/index.html
-- frontend/admin.html
-
-### Option 2: Serve with Python
 ```bash
 cd frontend
 python -m http.server 5500
 ```
 
-Then open:
-- http://localhost:5500/index.html
-- http://localhost:5500/admin.html
+Open [http://localhost:5500/](http://localhost:5500/) for the site or [http://localhost:5500/admin.html](http://localhost:5500/admin.html) for the demo dashboard. Serving the files over HTTP is recommended over opening them directly.
 
-## MongoDB Configuration
+## API routes
 
-The backend uses MongoDB through Spring Data MongoDB. Example configuration:
+| Method | Route | Purpose |
+| --- | --- | --- |
+| `GET` / `POST` | `/projects` | Read or add projects |
+| `GET` / `POST` | `/clients` | Read or add clients |
+| `GET` / `POST` | `/contact` | Read or submit contact enquiries |
+| `GET` / `POST` | `/subscribe` | Read or add newsletter subscribers |
 
-```properties
-spring.application.name=backend
-server.port=${PORT:8080}
-spring.data.mongodb.uri=${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/backend}
-app.cors.allowed-origins=${APP_CORS_ALLOWED_ORIGINS:http://localhost:5500,http://127.0.0.1:5500}
-```
+Example health-of-data check:
 
-If you are using MongoDB Atlas, set the URI to your Atlas connection string instead of localhost.
-
-## API Endpoints
-
-### Public endpoints
-- GET /projects
-- POST /projects
-- GET /clients
-- POST /clients
-- POST /contact
-- GET /contact
-- POST /subscribe
-- GET /subscribe
-
-### Example request
 ```bash
 curl http://localhost:8080/projects
 ```
 
-## Admin Functionality
+## Configuration
 
-The admin page is used to:
-- review submitted contact requests
-- review newsletter subscriptions
-- add projects
-- add clients
+| Variable | Default | Description |
+| --- | --- | --- |
+| `PORT` | `8080` | HTTP port for the API |
+| `SPRING_DATA_MONGODB_URI` | `mongodb://localhost:27017/backend` | MongoDB connection URI |
+| `APP_CORS_ALLOWED_ORIGINS` | `http://localhost:5500,http://127.0.0.1:5500` | Comma-separated browser origins permitted by CORS |
 
-This is a demo implementation and should be secured in production with authentication and authorization.
+The deployed frontend API URL is configured in `fullstack-Assignment-main/frontend/js/api.js`.
 
-## Security Notes
+## Performance notes
 
-- Never commit real MongoDB credentials
-- Keep secrets in environment variables
-- Use HTTPS in production
-- Restrict admin APIs with authentication
-- Validate user input on both frontend and backend
+The frontend keeps successful GET responses in a short-lived in-memory cache, reuses concurrent identical reads, renders card lists in a single DOM update, and lazy-loads images. The API enables HTTP response compression for larger responses. These optimizations are intentionally lightweight and do not replace production profiling, database indexing, or pagination for large datasets.
 
-## Troubleshooting
+## Production checklist
 
-### Java not recognized
-- Install JDK 17
-- Restart the terminal
-- Verify JAVA_HOME and PATH
-
-### MongoDB connection errors
-- Check if MongoDB is running
-- Confirm the URI is valid
-- For Atlas, ensure IP access is allowed
-
-### Frontend API errors
-- Ensure backend is running
-- Check browser console for network errors
-- Confirm the base URL points to http://localhost:8080
-
-## Professional Upgrade Suggestions
-
-To make the project more production-ready, consider:
-- JWT-based admin authentication
-- Service-layer refactor
-- DTO validation and centralized exception handling
-- Better UI/UX with frameworks like React or Angular
-- Docker Compose for full environment setup
-- CI/CD pipeline and automated tests
-
-## License
-
-This project is intended for learning and demonstration purposes.
+- Add server-side authentication and authorization for every admin route.
+- Restrict CORS to the actual deployed frontend origin(s).
+- Store secrets in a managed secret store and use HTTPS.
+- Add pagination and suitable MongoDB indexes as data volume grows.
+- Add automated tests, monitoring, and request/input limits before public deployment.
 
 ## Contributing
 
-Contributions are welcome if they improve code quality, security, maintainability, or the user experience.
-
----
-
-This repository is a learning/full-stack demo project.
-It demonstrates a simple end-to-end flow from browser form submissions to database persistence through a Spring Boot API.
-
-"path":"fullstack-Assignment-main/README.md" },{"content":"# Full Stack Portfolio Website
-
-A modern portfolio and agency website with a public landing page and an admin dashboard. Visitors can submit contact requests and subscribe to a newsletter, while administrators can manage projects and clients.
-
-## Overview
-
-This application is split into two main parts:
-
-- Backend: Java 17 + Spring Boot + MongoDB
-- Frontend: HTML + CSS + JavaScript
-
-The landing page showcases projects and clients, while the admin dashboard allows authorized users to review submissions and add content.
-
-## Architecture
-
-```mermaid
-flowchart LR
-    A[User Browser] --> B[Frontend Landing Page]
-    B --> C[REST API]
-    C --> D[Spring Boot Controller]
-    D --> E[MongoDB]
-    E --> F[Projects, Clients, Contact, Subscribers]
-    F --> G[Admin Dashboard]
-```
-
-## Workflow
-
-```mermaid
-sequenceDiagram
-    participant U as Visitor
-    participant F as Frontend
-    participant B as Backend API
-    participant M as MongoDB
-
-    U->>F: Visit website
-    F->>B: GET /projects
-    F->>B: GET /clients
-    B->>M: Retrieve records
-    M-->>B: JSON data
-    B-->>F: Data response
-    F-->>U: Render portfolio cards
-
-    U->>F: Submit contact form
-    F->>B: POST /contact
-    B->>M: Save enquiry
-    M-->>B: Saved
-    B-->>F: Success
-    F-->>U: Confirmation message
-```
-
-## Features
-
-- Public landing page
-- Contact form for enquiries
-- Newsletter subscription
-- Project display cards
-- Client showcase section
-- Admin panel for content management
-- MongoDB persistence
-- REST API integration
-
-## Tech Stack
-
-- Java 17
-- Spring Boot
-- Spring Data MongoDB
-- MongoDB Atlas / local MongoDB
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- Maven
-
-## Project Structure
-
-```text
-fullstack-Assignment-main/
-├── backend/
-│   ├── src/main/java/com/assignment/backend/
-│   │   ├── config/
-│   │   ├── controller/
-│   │   ├── exception/
-│   │   ├── model/
-│   │   ├── repository/
-│   │   └── BackendApplication.java
-│   ├── src/main/resources/
-│   │   └── application.properties
-│   ├── pom.xml
-│   ├── mvnw
-│   ├── mvnw.cmd
-│   └── Dockerfile
-├── frontend/
-│   ├── admin.html
-│   ├── index.html
-│   ├── css/
-│   └── js/
-├── README.md
-└── backend.zip
-```
-
-## Local Development Setup
-
-### Prerequisites
-
-- JDK 17+
-- Maven or Maven Wrapper
-- MongoDB running locally or a MongoDB Atlas connection string
-- A modern browser
-
-### Backend Setup
-
-1. Open a terminal in the `backend` directory.
-2. Set the MongoDB connection string:
-
-```bash
-export SPRING_DATA_MONGODB_URI="mongodb://localhost:27017/backend"
-```
-
-On Windows PowerShell:
-
-```powershell
-$env:SPRING_DATA_MONGODB_URI = "mongodb://localhost:27017/backend"
-```
-
-3. Start the app:
-
-```bash
-./mvnw spring-boot:run
-```
-
-Or on Windows:
-
-```powershell
-./mvnw.cmd spring-boot:run
-```
-
-4. The API starts at:
-
-```text
-http://localhost:8080
-```
-
-### Frontend Setup
-
-Serve the frontend directory or open the HTML directly.
-
-Example with Python:
-
-```bash
-cd frontend
-python -m http.server 5500
-```
-
-Then open:
-- http://localhost:5500/index.html
-- http://localhost:5500/admin.html
-
-## API Endpoints
-
-### Public endpoints
-- GET /projects
-- POST /projects
-- GET /clients
-- POST /clients
-- POST /contact
-- GET /contact
-- POST /subscribe
-- GET /subscribe
-
-## Environment Variables
-
-```bash
-SPRING_DATA_MONGODB_URI
-APP_CORS_ALLOWED_ORIGINS
-PORT
-```
-
-Example:
-
-```bash
-export PORT=8080
-export SPRING_DATA_MONGODB_URI="mongodb+srv://username:password@cluster.mongodb.net/backend"
-export APP_CORS_ALLOWED_ORIGINS="http://localhost:5500,http://127.0.0.1:5500"
-```
-
-## Security Notes
-
-- Never commit real MongoDB credentials.
-- Keep secrets in environment variables or a secret manager.
-- Restrict admin APIs in production.
-- Validate incoming data.
-- Use HTTPS in production.
-
-## Troubleshooting
-
-### MongoDB connection errors
-- Check if MongoDB is running.
-- Confirm the URI is valid.
-- Ensure the database user has permissions.
-
-### Port already in use
-- Change the server port in `application.properties` or set `PORT`.
-
-### Frontend API errors
-- Confirm the Spring Boot backend is running.
-- Verify the frontend uses the correct API base URL.
-- Check the browser console for errors.
-
-## Production Guidance
-
-For production deployment:
-
-- configure a secure MongoDB connection string
-- add authentication for the admin dashboard
-- restrict CORS to trusted domains
-- use HTTPS
-- add monitoring, logging, and automated tests
+Improvements to accessibility, performance, documentation, tests, and security are welcome. Please keep credentials and other secrets out of commits.
 
 ## License
 
-This project is provided for learning and demonstration purposes.
-
-## Contributing
-
-This is a learning project and contributions are welcome when they improve quality, maintainability, and security.
-"}]}
+No license is currently specified. Contact the repository owner before redistributing this project.
